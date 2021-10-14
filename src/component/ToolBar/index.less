@@ -1,0 +1,30 @@
+.tool_bar{
+    width: 200px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: red;
+    z-index: 99;
+    .tool_bar_panel{
+        >.ant-collapse-header{
+            text-align: left;
+        }
+        .tool_bar_item{
+            .tool_bar_item_col{
+                border:1px solid #fff;
+                border-radius: 5px;
+                cursor: pointer;
+                &:hover{
+                    border-color: aqua;
+                }
+                >img{
+                    width: 100%;
+                }
+                >.title{
+                    margin-top: 10px;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,63 @@
+{
+  "name": "my_three",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@react-three/drei": "^7.14.1",
+    "@react-three/fiber": "^7.0.15",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "babel-plugin-import": "^1.13.3",
+    "css-loader": "^5.0.0",
+    "customize-cra": "^1.0.0",
+    "less": "^2.7.3",
+    "less-loader": "^5.0.0",
+    "leva": "^0.9.14",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-preset-env": "^6.7.0",
+    "react": "^17.0.2",
+    "react-app-rewired": "^2.1.8",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "three": "^0.133.1",
+    "web-vitals": "^1.1.2",
+    "zustand": "^3.5.13"
+  },
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
+    "eject": "react-app-rewired eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "@react-three/cannon": "^4.0.1",
+    "antd": "^4.16.13",
+    "compression-webpack-plugin": "^9.0.0",
+    "lib-flexible": "^0.3.2",
+    "postcss-loader": "^6.2.0",
+    "postcss-pxtorem": "^5.1.1",
+    "postcss-px2rem-exclude": "0.0.6",
+    "react-app-rewire-postcss": "^3.0.2",
+    "webpack-bundle-analyzer": "^4.5.0",
+    "webpack-cli": "^4.9.0"
+  }
+}
