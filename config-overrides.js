@@ -115,7 +115,7 @@ module.exports = {
           //关键:设置px2rem
           px2rem({
             remUnit: 192,
-            exclude: /node-modules/i,
+            exclude: /node-modules|Edit/i,
           }),
         ],
       });

@@ -1,12 +1,17 @@
-.tool_bar{
+.mouse_image{
+    position: fixed;
+    z-index: 99;
+    width: 64px;
+    height: 64px;
+}
+.tool_bar.ant-collapse{
     width: 200px;
     height: 100vh;
     position: fixed;
     top: 0;
     left: 0;
-    background: red;
     z-index: 99;
-    .tool_bar_panel{
+    >.tool_bar_panel{
         >.ant-collapse-header{
             text-align: left;
         }
@@ -16,13 +21,17 @@
                 border-radius: 5px;
                 cursor: pointer;
                 &:hover{
-                    border-color: aqua;
+                    border-color: rgba(163, 168, 168, 0.4);
                 }
                 >img{
-                    width: 100%;
+                    width: 53px;
+                    height: 53px;
                 }
                 >.title{
+                    font-size: 12px;
+                    text-align: center;
                     margin-top: 10px;
+                    margin-bottom: 0;
                 }
             }
         }

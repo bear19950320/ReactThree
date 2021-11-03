@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import App from './App';
-import 'lib-flexible';
+// import 'lib-flexible';
 import 'antd/dist/antd.css';
 import './index.less';
 import reportWebVitals from './reportWebVitals';
