@@ -1,13 +1,23 @@
 
 
 import React, { useState, useRef } from 'react';
-import { useCursor } from '@react-three/drei';
+import { useCursor, useHelper } from '@react-three/drei';
 import * as THREE from 'three';
 import { CSG } from "three-csg-ts";
+/**
+ * helper (react-three/drei=> useHelper) 
+ * @param {*} props 
+ * @returns 
+ */
+const HelperView = (props) => {
+	const { modeRef } = props || {}
+	useHelper(modeRef, THREE.BoxHelper, 'cyan')
+	return <></>
+}
 //  直角墙 几何体
 function Wall(props) {
     const groupRef = useRef()
-    const { handleClick, modeId } = props || {}
+    const { handleClick, modeId, editModeId } = props || {}
     const [hovered, setHovered] = useState(false)
     const mesh1 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 4));
     const mesh2 = new THREE.Mesh(new THREE.BoxGeometry(4, 2, 4));
@@ -27,6 +37,8 @@ function Wall(props) {
             onPointerOver={() => setHovered(true)}
             onPointerOut={() => setHovered(false)}
         >
+            {/* [判断修改ID是否等于当前模型的ID]显示用helper */}
+            {editModeId === modeId && <HelperView modeRef={groupRef} />}
             <primitive object={newMesh} />
         </group>
     )

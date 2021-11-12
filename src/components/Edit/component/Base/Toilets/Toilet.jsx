@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
 import * as THREE from 'three';
+import { useHelper } from '@react-three/drei';
 import { CSG } from "three-csg-ts";
 
 //  开关门
@@ -8,7 +9,7 @@ const doorOpenClose = (object, type) => {
     object.position.z = type ? 1.35 : 0.9;
     object.position.x = type ? - 0.05 : 0
 }
-
+//  创建模型
 const createMode = () => {
     const doorImg = new THREE.TextureLoader().load('/door.jpg')
     const toiletImg = new THREE.TextureLoader().load('/image/toilet.jpg')
@@ -100,9 +101,9 @@ const createMode = () => {
     // var mesh = new THREE.Mesh( geometry, [mate1, basicMaterial, basicMaterial, basicMaterial, basicMaterial, basicMaterial] ) ;
     //  开门
     // eslint-disable-next-line
-    const animate = () => {
-        requestAnimationFrame(animate)
-    }
+    // const animate = () => {
+    //     requestAnimationFrame(animate)
+    // }
     // 坑位格
     const boxA = new THREE.Mesh(new THREE.BoxGeometry(2, 2, 2))
     const boxB = new THREE.Mesh(new THREE.BoxGeometry(1.8, 2.2, 1.8))
@@ -128,10 +129,21 @@ const createMode = () => {
     }
 }
 
+/**
+ * helper (react-three/drei=> useHelper) 
+ * @param {*} props 
+ * @returns 
+ */
+const HelperView = (props) => {
+	const { modeRef } = props || {}
+	useHelper(modeRef, THREE.BoxHelper, 'cyan')
+	return <></>
+}
+//  独立卫生间
 const Toilet = (props) => {
     const toiletRef = useRef()
     const [doorOpen, setDoorOpen] = useState(true)
-    const { handleClick, modeId } = props || {}
+    const { handleClick, modeId, editModeId } = props || {}
     const { boxC, newMesh, doorMode } = createMode()
     doorOpenClose(doorMode, doorOpen)
     return (
@@ -141,6 +153,8 @@ const Toilet = (props) => {
             name={modeId}
             onClick={handleClick}
         >
+            {/* [判断修改ID是否等于当前模型的ID]显示用helper */}
+            {editModeId === modeId && <HelperView modeRef={toiletRef} />}
             {/* <SpotLight penumbra={0.5} position={[-1, 1, 0]} intensity={0.5} angle={0.5} color="#ff005b" castShadow /> */}
             <primitive object={newMesh} />
             <group onClick={(e) => {

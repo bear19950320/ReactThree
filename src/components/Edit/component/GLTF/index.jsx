@@ -1,6 +1,7 @@
 
-import { Text } from '@react-three/drei';
+import { Text, useHelper } from '@react-three/drei';
 import { useState, useRef, useEffect } from 'react';
+import { BoxHelper } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 
 const TextView = () => {
@@ -34,15 +35,22 @@ const loadingMode = (src) => {
 		loader.load(`/models${src}`, resolve);
 	});
 }
-
+/**
+ * helper (react-three/drei=> useHelper) 
+ * @param {*} props 
+ * @returns 
+ */
+const HelperView = (props) => {
+	const { modeRef } = props || {}
+	useHelper(modeRef, BoxHelper, 'cyan')
+	return <></>
+}
 const ShoeMode = (props) => {
 	const ShoeModeref = useRef()
 	const [hovered, setHovered] = useState(false)
 	//	src模型文件路径, cameraRef相机ref, iconShow是否显示icon, modeId当前模型得ID也是数组得id, handleClick点击处理函数
-	const { src, cameraRef, iconShow, modeId, handleClick } = props || {}
-	// 相机对象
 	//	eslint-disable-next-line
-	const cameraObj = cameraRef?.current
+	const { src, iconShow, modeId, handleClick, editModeId, hadnleDoubleClick } = props || {}
 	const [mesh, setMesh] = useState(null)
 	// 异步处理 写入GLTF 模型
 	useEffect(() => {
@@ -57,26 +65,24 @@ const ShoeMode = (props) => {
 	return (
 		<>
 			{/* 点击注入 拖拽组件需要的Object */}
-			<group
+			<mesh
 				name={modeId}
 				ref={ShoeModeref}
 				{...props}
+				castShadow
 				onClick={handleClick}
-				// onDoubleClick={(e) => {
-				// 	e.stopPropagation()
-				// 	// const { position } = ShoeModeref.current || {}
-				// 	// const { x, y, z } = position || {}
-				// 	// cameraRef.current.position.set(x || 0, y || 0, z || 0)
-				// 	console.log(e, 'onDoubleClick')
-				// }}
+				onDoubleClick={hadnleDoubleClick}
 				onPointerOver={() => setHovered(true)}
 				onPointerOut={() => setHovered(false)}
 			>
+				{/* material-color={editModeId === modeId ? '#ff6080' : 'white'} */}
+				{/* [判断修改ID是否等于当前模型的ID]显示用helper */}
+				{editModeId === modeId && <HelperView modeRef={ShoeModeref} />}
 				{
-					mesh && <primitive  object={mesh}></primitive>
+					mesh && <primitive object={mesh}></primitive>
 				}
 				{ hovered && iconShow &&  <TextView />}
-			</group>
+			</mesh>
 			
 		</>
 	)

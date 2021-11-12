@@ -1,6 +1,6 @@
 import { Provider } from 'react-redux';
 import store from '@/store';
-import Edit from '@/component/Edit';
+import Edit from '@/components/Edit';
 
 import 'lib-flexible';
 import './App.css';

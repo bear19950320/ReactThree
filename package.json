@@ -54,7 +54,7 @@
     "@react-three/cannon": "^4.0.1",
     "@rematch/core": "^2.1.1",
     "antd": "^4.16.13",
-    "compression-webpack-plugin": "^9.0.0",
+    "compression-webpack-plugin": "^5.0.1",
     "connected-react-router": "^6.9.1",
     "history": "^5.0.1",
     "lib-flexible": "^0.3.2",
@@ -64,6 +64,7 @@
     "react-app-rewire-postcss": "^3.0.2",
     "react-redux": "^7.2.5",
     "react-router": "^5.2.1",
+    "react-spring": "^9.3.0",
     "webpack-bundle-analyzer": "^4.5.0",
     "webpack-cli": "^4.9.0"
   }

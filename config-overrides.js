@@ -34,7 +34,7 @@ const addCustomize = () => config => {
     // 添加js打包gzip配置
     config.plugins.push(
       new CompressionWebpackPlugin({
-        test: /\.js$|\.css$/,
+        test: /\.js$|\.css$|\.gltf$/,
         threshold: 1024,
       }),
     )

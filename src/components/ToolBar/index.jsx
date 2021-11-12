@@ -1,7 +1,7 @@
 import { useState } from "react";
 import * as THREE from 'three';
 import { Col, Row, Collapse } from 'antd'
-import { qiangmian, cornerWall, toilet, basin, urine } from './mode.js';
+import { qiangmian, cornerWall, toilet, basin, urine, meshToilet } from './mode.js';
 import Mouse from "../Mouse/index.jsx";
 import  './index.less';
 const { Panel } = Collapse;
@@ -21,7 +21,7 @@ const modeArray = [
             },
             {
                 title: '卫生间',
-                image: basin,
+                image: meshToilet,
                 type: 'toilet'
             }
         ]
@@ -50,32 +50,30 @@ const modeArray = [
         ]
     }
 ]
-// DragControls.install({THREE: THREE});
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
 const ToolBar = (props) => {
-    const { cameraRef, canvasRef, setCanvasArray, canvasArray, GL } = props || {}
-    // console.log(GL, '===GL')
+    const { setCanvasArray, canvasArray, GL } = props || {}
     //  eslint-disable-next-line
     const { camera: cameraGL, scene, gl } = GL || {}
-    //  eslint-disable-next-line
-    const camera = cameraRef && cameraRef?.current
-    //  eslint-disable-next-line
-    const canvas = canvasRef && canvasRef.current
     const [mouseData, setMouseData] = useState(0)
-    // 鼠标移动
+    // 鼠标放开
     const handleMouseUp = (e, item) => {
+        let worldPos = new THREE.Vector3()
         const { src } = item || {}
-        const { clientX: x, clientY: y } = e || {} //  鼠标移动坐标
-        // 屏幕坐标转标准设备坐标
-        const x1 = ( x / window.innerWidth ) * 2 - 1;
-        const y1 = -( y / window.innerHeight ) * 2 + 1;
-        //标准设备坐标(z=0.5这个值并没有一个具体的说法)
-        const stdVector = new THREE.Vector3(x1, y1, 0.5);
-        // 标准设备坐标转为世界坐标
-        const worldVector = stdVector.unproject(cameraGL);
-        // worldVector.y = 0
+        const { clientX, clientY } = e || {} //  鼠标放开坐标
+        pointer.x = ( clientX / window.innerWidth ) * 2 - 1;
+        pointer.y = - ( clientY / window.innerHeight ) * 2 + 1;
+        raycaster.setFromCamera( pointer, cameraGL );
+        const intersects = raycaster.intersectObject(scene.getObjectByName('planeHelper'), false );
+        if ( intersects.length > 0 ) {
+            worldPos.copy(intersects[0]?.point)          
+        }
+        worldPos.y = 0
         setCanvasArray({
             ...item,
-            position: worldVector,
+            position: worldPos,
             modeType: src && 'gltf',
             modeId: `c_s_${canvasArray.length + 1}`
         })
@@ -93,11 +91,11 @@ const ToolBar = (props) => {
         })
     }
     return (<>
-        <Collapse className="tool_bar">
+        <Collapse className="tool_bar" activeKey={[0,1]}>
             {
-                modeArray.map((item) => {
+                modeArray.map((item, index) => {
                     const { title, mode } = item || {}
-                    return <Panel header={title} key={title} className="tool_bar_panel">
+                    return <Panel header={title} key={index} collapsible="disabled" className="tool_bar_panel">
                         <Row className="tool_bar_item">
                             {mode && mode.map((modeItem, index) => {
                                 const { title: modeTitle, image: modeImage } = modeItem || {}
@@ -113,7 +111,6 @@ const ToolBar = (props) => {
                                             x: clientX,
                                             y: clientY
                                         })
-                                        // handleClickMode(modeItem)
                                     }} 
                                     className="tool_bar_item_col"
                                 >
@@ -127,7 +124,7 @@ const ToolBar = (props) => {
             }
         </Collapse>
         {
-            mouseData?.data && <Mouse handleUp={(e) => mouseData?.data && handleMouseUp(e, mouseData?.data)} data={mouseData?.data} x={mouseData?.x} y={mouseData?.y}>
+            mouseData?.data && <Mouse handleUp={(e) => mouseData?.data && handleMouseUp(e, mouseData?.data)} setMouseData={setMouseData} data={mouseData?.data} x={mouseData?.x} y={mouseData?.y}>
                 {({x, y}) => (
                     <img
                         className="mouse_image"
